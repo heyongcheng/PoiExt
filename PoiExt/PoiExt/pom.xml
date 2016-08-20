@@ -135,6 +135,11 @@
         <artifactId>poi-ooxml-schemas</artifactId>
         <version>3.12</version>
     </dependency>
+    <dependency>
+		<groupId>dom4j</groupId>
+		<artifactId>dom4j</artifactId>
+		<version>1.6.1</version>
+	</dependency>
     <!-- slf4j -->
     <dependency>
         <groupId>org.slf4j</groupId>

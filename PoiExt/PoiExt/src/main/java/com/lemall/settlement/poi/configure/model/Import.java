@@ -1,5 +1,5 @@
 package com.lemall.settlement.poi.configure.model;
 
-public class Import extends Config{
+public class Import extends AbstractConfig{
 	
 }

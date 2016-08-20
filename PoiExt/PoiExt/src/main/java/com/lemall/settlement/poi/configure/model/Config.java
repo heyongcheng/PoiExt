@@ -3,35 +3,23 @@ package com.lemall.settlement.poi.configure.model;
 import lombok.Data;
 
 @Data
-public abstract class Config {
+public class Config {
 	/**
 	 * 唯一标识
 	 */
 	String id;
 	/**
-	 * 开始行
+	 * 配置文件地址
 	 */
-	int startRow = 1;
+	String filePath;
 	/**
-	 * 开始列
+	 * 導入配置
 	 */
-	int startColumn = 1;
+	Import importConfig;
 	/**
-	 * 处理bean
+	 * 導出配置
 	 */
-	String processor;
-	/**
-	 * 方法名
-	 */
-	String method;
-	/**
-	 * sheet编号
-	 */
-	int sheetIndex;
-	/**
-	 * sheet名称
-	 */
-	String sheetName;
+	Export exportConfig;
 	/**
 	 * 列信息
 	 */

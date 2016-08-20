@@ -1,6 +1,6 @@
 package com.lemall.settlement.poi.configure.model;
 
-public class Export extends Config{
+public class Export extends AbstractConfig{
 	/**
 	 * 导出模板文件
 	 */

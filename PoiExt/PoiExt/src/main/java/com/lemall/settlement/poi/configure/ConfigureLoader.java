@@ -30,6 +30,25 @@ public abstract class ConfigureLoader implements ConfigContext{
 		return config;
 	}
 	/**
+	 * 添加配置
+	 * @param config
+	 */
+	public void addConfig(Config config){
+		if(config == null){
+			return;
+		}
+		if(StringUtils.isEmpty(config.getId())){
+			throw new ExcelHandleException("excel config:" + config.getFilePath() + " attribute:id can not be null");
+		}
+		if(CONFIG_MAP.containsKey(config.getId())){
+			throw new ExcelHandleException("excel config:" + config.getId() + " id duplicate");
+		}
+		CONFIG_MAP.put(config.getId(), config);
+		if(LOG.isInfoEnabled()){
+			LOG.info("excel config：{} has been added",config.getId());
+		}
+	}
+	/**
 	 * 加载配置文件
 	 */
 	@Override
@@ -40,18 +59,9 @@ public abstract class ConfigureLoader implements ConfigContext{
 		if(LOG.isDebugEnabled()){
 			LOG.debug("load excel config file:{},{}",file.getParentFile(),file.getName());
 		}
-		Config config = parse(file);
-		
-		if(StringUtils.isEmpty(config.getId())){
-			throw new ExcelHandleException("excel config:" + file.getPath() + file.getName() + " attribute:id can not be null");
-		}
-		if(CONFIG_MAP.containsKey(config.getId())){
-			throw new ExcelHandleException("excel config:" + config.getId() + " id duplicate");
-		}
-		CONFIG_MAP.put(config.getId(), config);
-		
-		if(LOG.isInfoEnabled()){
-			LOG.info("excel config：{} has been loaded",config.getId());
+		Config[] configs = parse(file);
+		for(int i=0;i<configs.length;i++){
+			addConfig(configs[i]);			
 		}
 	}
 	/**
@@ -78,12 +88,11 @@ public abstract class ConfigureLoader implements ConfigContext{
 		}
 	}
 	
-	
 	/**
 	 * 解析配置文件
 	 * @param file
 	 * @return
 	 */
-	public abstract Config parse(File file);
+	public abstract Config[] parse(File file);
 	
 }
