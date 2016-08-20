@@ -29,6 +29,11 @@ public abstract class ExportProcessor implements Processor{
 		if(export == null)
 			throw new ExcelHandleException("excel config:" + id + " has not export config");
 		
+		String processor = export.getProcessor();
+		
+		
+		
+		
 		return null;
 	}
 	
