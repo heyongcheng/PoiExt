@@ -5,10 +5,14 @@ import java.io.ByteArrayOutputStream;
 import com.lemall.settlement.poi.configure.ConfigContext;
 import com.lemall.settlement.poi.configure.model.Config;
 import com.lemall.settlement.poi.configure.model.Export;
+import com.lemall.settlement.poi.excel.ExcelContext;
+import com.lemall.settlement.poi.excel.ExcelUtils;
 import com.lemall.settlement.poi.excel.processor.Processor;
 import com.lemall.settlement.poi.exception.ExcelHandleException;
+import com.lemall.settlement.poi.progressor.HandleProgressor;
+import com.lemall.settlement.poi.utils.ReflexUtils;
 
-public abstract class ExportProcessor implements Processor{
+public class ExportProcessor implements Processor{
 	
 	/**
 	 * 导出
@@ -16,7 +20,7 @@ public abstract class ExportProcessor implements Processor{
 	 * @param obj
 	 * @return
 	 */
-	public <T> ByteArrayOutputStream export(String id,Object ...args){
+	public ByteArrayOutputStream export(String id,Object ...args){
 		/**
 		 * 获取excel配置信息
 		 */
@@ -28,13 +32,24 @@ public abstract class ExportProcessor implements Processor{
 		Export export = config.getExportConfig();
 		if(export == null)
 			throw new ExcelHandleException("excel config:" + id + " has not export config");
-		
+		/**
+		 * 获取导出bean
+		 */
 		String processor = export.getProcessor();
+		if(processor == null)
+			throw new ExcelHandleException("excel config:" + id + " export processor is null");
+		/**  获取bean  **/
+		Object bean = ExcelContext.getBean(processor);
+		if(bean == null)
+			throw new ExcelHandleException("export processor: " + processor + " bean is not exist");
+		/**
+		 * 导出bean's method
+		 */
+		String method = export.getMethod();
+		if(method == null)
+			throw new ExcelHandleException("excel config:" + id + " export processor: " + processor + "'s method is null");
 		
-		
-		
-		
-		return null;
+		return ExcelUtils.createExcel(ReflexUtils.invokeMethod(bean,method,args), config, new HandleProgressor());
 	}
 	
 }
