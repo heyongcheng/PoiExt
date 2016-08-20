@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.lemall.settlement.poi.configure.model.Config;
+import com.lemall.settlement.poi.excel.ExcelContext;
 import com.lemall.settlement.poi.exception.ExcelHandleException;
 
 /**
@@ -56,6 +57,15 @@ public abstract class ConfigureLoader implements ConfigContext{
 		if(file == null){
 			return;
 		}
+		/**
+		 * 递归加载
+		 */
+		if(file.isDirectory()){
+			File[] files = file.listFiles();
+			for(int i=0;i<files.length;i++){
+				load(files[i]);
+			}
+		}
 		if(LOG.isDebugEnabled()){
 			LOG.debug("load excel config file:{},{}",file.getParentFile(),file.getName());
 		}
@@ -68,21 +78,16 @@ public abstract class ConfigureLoader implements ConfigContext{
 	 * 加載路徑
 	 * @param path
 	 */
+	@Override
 	public void load(String path){
 		try {
-			File file = new File(path);
-			if(file.isDirectory()){
-				File[] files = file.listFiles();
-				for (int i = 0; i < files.length; i++) {
-					if(files[i].isDirectory()){
-						load(file.getPath());
-					}else if(files[i].isFile()){
-						load(file);
-					}
-				}
+			File file = null;
+			if(path.startsWith("classpath:")){
+				file = ExcelContext.getApplicationContext().getResource(path.replaceFirst("classpath:", "")).getFile();
 			}else{
-				load(file);
+				file = new File(path.replaceFirst("filepath:", ""));
 			}
+			load(file);
 		} catch (Exception e) {
 			throw new ExcelHandleException("load excel config filePath:" + path + " error",e);
 		}

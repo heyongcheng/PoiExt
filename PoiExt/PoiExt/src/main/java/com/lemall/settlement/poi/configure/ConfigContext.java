@@ -24,4 +24,10 @@ public interface ConfigContext {
 	 * @return
 	 */
 	public void load(File file);
+	
+	/**
+	 * 解析文件
+	 * @param path
+	 */
+	public void load(String path);
 }

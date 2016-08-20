@@ -38,7 +38,7 @@ public class ConfigInitializeBean implements ApplicationContextAware{
 	 */
 	private void loadConfig(){
 		try {
-			getConfigContext().load(ExcelContext.getApplicationContext().getResource(basePath).getFile());
+			getConfigContext().load(basePath);
 		} catch (Exception e) {
 			throw new ExcelHandleException("load excel config error." ,e);
 		}
