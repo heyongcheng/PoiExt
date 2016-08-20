@@ -29,7 +29,7 @@ public abstract class AbstractConfig {
 	 */
 	String sheetName;
 	/**
-	 * 列名稱
+	 * 列名(对应config /columns 中的名称)
 	 */
 	String[] columns;
 }
