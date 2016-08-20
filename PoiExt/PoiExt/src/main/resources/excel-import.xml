@@ -1,1 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<configs>
+	<config id = "test">
+		<!-- 导入配置 -->
+		<import>
+			<startRow>2</startRow>
+			<startColumn>1</startColumn>
+		</import>
+		<!-- 导出配置 -->
+		<export>
+			<startRow>2</startRow>
+			<startColumn>1</startColumn>
+			<template>c:/test.xls</template>
+			<createTitle>true</createTitle>
+		</export>
+		<!-- 列配置  -->
+		<columns>
+			<column name="name" title="名称"></column>
+			<column name="age" title="年龄"></column>
+		</columns>
+	</config>
+</configs>

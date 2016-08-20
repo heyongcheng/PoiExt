@@ -165,11 +165,17 @@ public class DefConfigureLoader extends ConfigureLoader{
 		
 		Import imports = new Import();
 		/** startRow **/
-		imports.setStartRow(POIUtils.getIntegerText(e_import.element(ConfigProperties.startRow)));
+		Integer startRow = POIUtils.getIntegerText(e_import.element(ConfigProperties.startRow));
+		if(startRow != null)
+			imports.setStartRow(startRow);
 		/** startColumn **/
-		imports.setStartColumn(POIUtils.getIntegerText(e_import.element(ConfigProperties.startColumn)));
+		Integer startColumn = POIUtils.getIntegerText(e_import.element(ConfigProperties.startColumn));
+		if(startColumn != null)
+			imports.setStartColumn(startColumn);
 		/** skipRuleError **/
-		imports.setSkipRuleError(POIUtils.getBooleanText(e_import.element(ConfigProperties.skipRuleError)));
+		Boolean skipRuleError = POIUtils.getBooleanText(e_import.element(ConfigProperties.skipRuleError));
+		if(skipRuleError != null)
+			imports.setSkipRuleError(skipRuleError);
 		/** processor **/
 		Element e_processor = e_import.element(ConfigProperties.processor);
 		if(e_processor != null){
@@ -216,13 +222,19 @@ public class DefConfigureLoader extends ConfigureLoader{
 		
 		Export export = new Export();
 		/** startRow **/
-		export.setStartRow(POIUtils.getIntegerText(e_export.element(ConfigProperties.startRow)));
+		Integer startRow = POIUtils.getIntegerText(e_export.element(ConfigProperties.startRow));
+		if(startRow != null)
+			export.setStartRow(startRow);
 		/** startColumn **/
-		export.setStartColumn(POIUtils.getIntegerText(e_export.element(ConfigProperties.startColumn)));
+		Integer startColumn = POIUtils.getIntegerText(e_export.element(ConfigProperties.startColumn));
+		if(startColumn != null)
+			export.setStartColumn(startColumn);
 		/** template **/
 		export.setTemplate(POIUtils.getStringText(e_export.element(ConfigProperties.template)));
 		/** createTitle **/
-		export.setCreateTitle(POIUtils.getBooleanText(e_export.element(ConfigProperties.createTitle)));
+		Boolean createTitle = POIUtils.getBooleanText(e_export.element(ConfigProperties.createTitle));
+		if(createTitle != null)
+			export.setCreateTitle(createTitle);
 		/** processor **/
 		Element e_processor = e_export.element(ConfigProperties.processor);
 		if(e_processor != null){
