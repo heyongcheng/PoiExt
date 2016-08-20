@@ -1,4 +1,4 @@
-package com.lemall.settlement.poi.parser;
+package com.lemall.settlement.poi.configure.parser;
 
 import java.io.File;
 import java.util.Iterator;
@@ -10,15 +10,15 @@ import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.lemall.settlement.poi.configure.ConfigProperties;
 import com.lemall.settlement.poi.configure.ConfigureLoader;
+import com.lemall.settlement.poi.configure.POIUtils;
 import com.lemall.settlement.poi.configure.model.Column;
 import com.lemall.settlement.poi.configure.model.Config;
 import com.lemall.settlement.poi.configure.model.Export;
 import com.lemall.settlement.poi.configure.model.Import;
 import com.lemall.settlement.poi.configure.model.Rule;
-import com.lemall.settlement.poi.constant.ConfigProperties;
 import com.lemall.settlement.poi.exception.ExcelHandleException;
-import com.lemall.settlement.poi.util.POIUtils;
 
 public class DefConfigureLoader extends ConfigureLoader{
 	

@@ -1,7 +1,7 @@
 import com.lemall.settlement.poi.configure.ConfigContext;
 import com.lemall.settlement.poi.configure.ConfigureLoader;
 import com.lemall.settlement.poi.configure.model.Config;
-import com.lemall.settlement.poi.parser.DefConfigureLoader;
+import com.lemall.settlement.poi.configure.parser.DefConfigureLoader;
 
 public class ParseConfig {
 

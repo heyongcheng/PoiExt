@@ -1,4 +1,4 @@
-package com.lemall.settlement.poi.util;
+package com.lemall.settlement.poi.configure;
 
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Attribute;

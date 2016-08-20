@@ -1,4 +1,4 @@
-package com.lemall.settlement.poi.constant;
+package com.lemall.settlement.poi.configure;
 
 public class ConfigProperties {
 	/**
