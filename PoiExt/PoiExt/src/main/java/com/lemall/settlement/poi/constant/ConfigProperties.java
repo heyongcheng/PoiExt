@@ -21,6 +21,8 @@ public class ConfigProperties {
 	public static final String template = "template";
 	/** 创建标题   **/
 	public static final String createTitle = "createTitle";
+	/** 跳过验证错误   **/
+	public static final String skipRuleError = "skipRuleError";
 	/**  引用   **/
 	public static final String ref = "ref";
 	/**  处理bean   **/
@@ -29,5 +31,15 @@ public class ConfigProperties {
 	public static final String method = "method";
 	/**  列分隔符   **/
 	public static final String columnSeparator = ";";
+	/** 名称 **/
+	public static final String name = "name";
+	/** value **/
+	public static final String value = "value";
+	/** message **/
+	public static final String message = "message";
+	/**  标题  **/
+	public static final String title = "title";
+	/**  规则   **/
+	public static final String rule = "rule";
 	
 }

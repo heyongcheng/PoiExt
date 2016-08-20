@@ -15,6 +15,7 @@ import com.lemall.settlement.poi.configure.model.Column;
 import com.lemall.settlement.poi.configure.model.Config;
 import com.lemall.settlement.poi.configure.model.Export;
 import com.lemall.settlement.poi.configure.model.Import;
+import com.lemall.settlement.poi.configure.model.Rule;
 import com.lemall.settlement.poi.constant.ConfigProperties;
 import com.lemall.settlement.poi.exception.ExcelHandleException;
 import com.lemall.settlement.poi.util.POIUtils;
@@ -81,12 +82,76 @@ public class DefConfigureLoader extends ConfigureLoader{
 		return config;
 	}
 	/**
-	 * 解析列属性
+	 * 解析columns
+	 * @param e_columns
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private Column[] parseColumns(Element e_columns) {
+		if(e_columns == null)
+			return null;
+		/**
+		 * 获取 column 元素
+		 */
+		List<Element> e_column_s = e_columns.elements(ConfigProperties.column);
+		if(e_column_s == null || e_column_s.isEmpty()){
+			return new Column[0];
+		}
+		/**
+		 * 解析 column 配置
+		 */
+		int size = e_column_s.size();
+		Column[] columns = new Column[size];
+		for(int i=0;i<size;i++){
+			columns[i] = parseColumn(e_column_s.get(i));
+			if(columns[i] != null)
+				columns[i].setIndex(i);
+		}
+		return columns;
+	}
+	/**
+	 * 解析column
 	 * @param element
 	 * @return
 	 */
-	private Column[] parseColumns(Element e_column) {
-		return null;
+	@SuppressWarnings("unchecked")
+	private Column parseColumn(Element e_column) {
+		if(e_column == null)
+			return null;
+		Column column = new Column();
+		/**  列名称   **/
+		column.setName(POIUtils.getStringValue(e_column.attribute(ConfigProperties.name)));
+		/** 列标题   **/
+		column.setTitle(POIUtils.getStringValue(e_column.attribute(ConfigProperties.title)));
+		/**  规则  **/
+		List<Element> e_rules = e_column.elements(ConfigProperties.rule);
+		if(e_rules != null && !e_rules.isEmpty()){
+			int size = e_rules.size();
+			Rule[] rules = new Rule[size];
+			for(int i=0;i<size;i++){
+				rules[i] = parseRule(e_rules.get(i));
+			}
+			column.setRules(rules);
+		}
+		return column;
+	}
+	/**
+	 * 解析导入规则
+	 * @param element
+	 * @return
+	 */
+	private Rule parseRule(Element e_rule) {
+		if(e_rule == null)
+			return null;
+		Rule rule = new Rule();
+		/** name  **/
+		rule.setName(POIUtils.getStringValue(e_rule.attribute(ConfigProperties.name)));
+		/**  value  **/
+		rule.setValue(POIUtils.getStringValue(e_rule.attribute(ConfigProperties.value)));
+		/**  message  **/
+		rule.setMessage(POIUtils.getStringValue(e_rule.attribute(ConfigProperties.message)));
+		
+		return rule;
 	}
 	/**
 	 * 导入配置
@@ -95,7 +160,48 @@ public class DefConfigureLoader extends ConfigureLoader{
 	 * @return
 	 */
 	private Import parseImport(Element e_import, String[] columns) {
-		return null;
+		if(e_import == null)
+			return null;
+		
+		Import imports = new Import();
+		/** startRow **/
+		imports.setStartRow(POIUtils.getIntegerText(e_import.element(ConfigProperties.startRow)));
+		/** startColumn **/
+		imports.setStartColumn(POIUtils.getIntegerText(e_import.element(ConfigProperties.startColumn)));
+		/** skipRuleError **/
+		imports.setSkipRuleError(POIUtils.getBooleanText(e_import.element(ConfigProperties.skipRuleError)));
+		/** processor **/
+		Element e_processor = e_import.element(ConfigProperties.processor);
+		if(e_processor != null){
+			/** bean **/
+			imports.setProcessor(POIUtils.getStringValue(e_processor.attribute(ConfigProperties.ref)));
+			/** method **/
+			imports.setMethod(POIUtils.getStringValue(e_processor.attribute(ConfigProperties.method)));
+		}
+		/**  列名称   未配置时 默认为 column的全部列  **/
+		String e_columns = POIUtils.getStringText(e_import.element(ConfigProperties.columns));
+		if(e_columns != null){
+			if(columns == null)
+				throw new ExcelHandleException("parse excel config error column：[" + e_columns + "] is not exist in columns");
+			/** 验证列名称是否存在  **/
+			String[] c_columns = e_columns.split(ConfigProperties.columnSeparator);
+			boolean exist;
+			for(int i=0;i<c_columns.length;i++){
+				exist = false;
+				for(int j=0;j<columns.length;j++){
+					if(c_columns[i].equals(columns[j])){
+						exist = true;
+						break;
+					}
+				}
+				if(!exist)
+					throw new ExcelHandleException("parse excel config error column：" + c_columns[i] + " is not exist in columns");
+			}
+			imports.setColumns(c_columns);
+		}else{
+			imports.setColumns(columns);
+		}
+		return imports;
 	}
 	/**
 	 * 导出配置
@@ -128,6 +234,8 @@ public class DefConfigureLoader extends ConfigureLoader{
 		/**  列名称   未配置时 默认为 column的全部列  **/
 		String e_columns = POIUtils.getStringText(e_export.element(ConfigProperties.columns));
 		if(e_columns != null){
+			if(columns == null)
+				throw new ExcelHandleException("parse excel config error column：[" + e_columns + "] is not exist in columns");
 			/** 验证列名称是否存在  **/
 			String[] c_columns = e_columns.split(ConfigProperties.columnSeparator);
 			boolean exist;

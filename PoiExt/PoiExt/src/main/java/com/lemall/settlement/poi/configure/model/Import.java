@@ -1,5 +1,8 @@
 package com.lemall.settlement.poi.configure.model;
 
+import lombok.Data;
+
+@Data
 public class Import extends AbstractConfig{
 	
 	/**

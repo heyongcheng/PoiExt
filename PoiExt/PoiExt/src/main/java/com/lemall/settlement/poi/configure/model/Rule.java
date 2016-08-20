@@ -11,7 +11,7 @@ public class Rule {
 	/**
 	 * 规则值
 	 */
-	String[] values;
+	String value;
 	/**
 	 * 错误信息
 	 */
