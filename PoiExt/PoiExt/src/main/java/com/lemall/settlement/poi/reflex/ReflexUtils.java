@@ -1,6 +1,8 @@
 package com.lemall.settlement.poi.reflex;
 
 import java.lang.reflect.Method;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
@@ -15,6 +17,10 @@ import com.lemall.settlement.poi.reflex.model.MethodInfo;
 public class ReflexUtils {
 	
 	private static final ParameterNameDiscoverer discoverer = new LocalVariableTableParameterNameDiscoverer();
+	
+	private static final Map<Method,MethodInfo> methodInfoCache = new ConcurrentHashMap<Method,MethodInfo>();
+	
+	
 	/**
 	 * 反射调用
 	 * @param bean
@@ -32,8 +38,11 @@ public class ReflexUtils {
 					break;
 				}
 			}
+			if(method == null)
+				throw new ExcelHandleException("export processor: " + bean.getClass().getName() + " method:" + methodName + " is not exist");
+			/**  返回方法调用   **/
+			return method.invoke(bean, ParameterBinding.getBindingParameters(getMethodInfo(method), args));
 			
-			return method.invoke(bean, args);
 		} catch (Exception e) {
 			throw new ExcelHandleException("export processor: " + bean.getClass().getName() + " invokeMethod:" + methodName + " error");
 		}
@@ -45,10 +54,19 @@ public class ReflexUtils {
 	 * @return
 	 */
 	public static MethodInfo getMethodInfo(Method method){
-		MethodInfo methodInfo = new MethodInfo();
+		/** method缓存  **/
+		MethodInfo methodInfo = methodInfoCache.get(method);
+		if(methodInfo != null)
+			return methodInfo;
+		/**
+		 * 获取method信息
+		 */
+		methodInfo = new MethodInfo();
 		methodInfo.setMethod(method);
 		methodInfo.setParamNames(discoverer.getParameterNames(method));
 		methodInfo.setParamTypes(method.getParameterTypes());
+		/**  加入缓存   **/
+		methodInfoCache.put(method, methodInfo);
 		return methodInfo;
 	}
 }

@@ -10,7 +10,7 @@ import com.lemall.settlement.poi.excel.ExcelUtils;
 import com.lemall.settlement.poi.excel.processor.Processor;
 import com.lemall.settlement.poi.exception.ExcelHandleException;
 import com.lemall.settlement.poi.progressor.HandleProgressor;
-import com.lemall.settlement.poi.utils.ReflexUtils;
+import com.lemall.settlement.poi.reflex.ReflexUtils;
 
 public class ExportProcessor implements Processor{
 	
