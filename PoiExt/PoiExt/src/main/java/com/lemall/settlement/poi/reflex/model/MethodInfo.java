@@ -18,9 +18,9 @@ public class MethodInfo {
 	/**
 	 * 参数类型
 	 */
-	Object[] paramTypes;
+	Class<?>[] paramTypes;
 	/**
 	 * 参数名称
 	 */
-	Object[] paramNames;
+	String[] paramNames;
 }

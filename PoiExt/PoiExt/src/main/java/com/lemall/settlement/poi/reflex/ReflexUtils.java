@@ -45,10 +45,10 @@ public class ReflexUtils {
 	 * @return
 	 */
 	public static MethodInfo getMethodInfo(Method method){
-		String[] parameterNames = discoverer.getParameterNames(method);
-		Class<?>[] parameterTypes = method.getParameterTypes();
-		
-		
-		return null;
+		MethodInfo methodInfo = new MethodInfo();
+		methodInfo.setMethod(method);
+		methodInfo.setParamNames(discoverer.getParameterNames(method));
+		methodInfo.setParamTypes(method.getParameterTypes());
+		return methodInfo;
 	}
 }
