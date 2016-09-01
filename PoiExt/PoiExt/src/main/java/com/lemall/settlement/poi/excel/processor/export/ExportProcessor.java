@@ -9,18 +9,21 @@ import com.lemall.settlement.poi.excel.ExcelContext;
 import com.lemall.settlement.poi.excel.ExcelUtils;
 import com.lemall.settlement.poi.excel.processor.Processor;
 import com.lemall.settlement.poi.exception.ExcelHandleException;
+import com.lemall.settlement.poi.handler.DataHandler;
+import com.lemall.settlement.poi.handler.DefaultHandler;
 import com.lemall.settlement.poi.progressor.HandleProgressor;
-import com.lemall.settlement.poi.reflex.ReflexUtils;
+import com.lemall.settlement.poi.web.WebRequest;
 
 public class ExportProcessor implements Processor{
 	
+	DataHandler handler = new DefaultHandler();
 	/**
 	 * 导出
 	 * @param id
 	 * @param obj
 	 * @return
 	 */
-	public ByteArrayOutputStream export(String id,Object ...args){
+	public ByteArrayOutputStream export(String id,WebRequest request){
 		/**
 		 * 获取excel配置信息
 		 */
@@ -49,7 +52,7 @@ public class ExportProcessor implements Processor{
 		if(method == null)
 			throw new ExcelHandleException("excel config:" + id + " export processor: " + processor + "'s method is null");
 		
-		return ExcelUtils.createExcel(ReflexUtils.invokeMethod(bean,method,args), config, new HandleProgressor());
+		return ExcelUtils.createExcel(handler.handle(bean, method, request), config, new HandleProgressor());
 	}
 	
 }
