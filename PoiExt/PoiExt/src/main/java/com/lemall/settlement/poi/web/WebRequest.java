@@ -11,5 +11,7 @@ public interface WebRequest {
 	
 	String[] getParameterValues(String paramName);
 	
+	Object getAttribute(String name);
+	
 	Locale getLocale();
 }
