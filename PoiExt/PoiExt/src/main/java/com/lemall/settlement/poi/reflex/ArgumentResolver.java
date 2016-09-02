@@ -62,7 +62,6 @@ public class ArgumentResolver {
 				continue;
 			}
 			
-			/**  基本数据类型   **/
 			if(isPrimitiveValue(type)){
 				if(!StringUtils.isEmpty(request.getParameter(name))){
 					args[i] = getPrimitiveValue(request.getParameter(name), type);
