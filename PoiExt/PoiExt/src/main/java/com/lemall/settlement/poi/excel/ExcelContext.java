@@ -2,6 +2,9 @@ package com.lemall.settlement.poi.excel;
 
 import org.springframework.context.ApplicationContext;
 
+/**
+ * ExcelContext
+ */
 public class ExcelContext {
 	
 	private static ApplicationContext context;

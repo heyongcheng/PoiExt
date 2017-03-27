@@ -8,7 +8,7 @@ import com.lemall.settlement.poi.configure.model.Config;
 
 public interface ConfigContext {
 	/**
-	 * 存放解析的配置文件
+	 * 存放解析后的配置文件
 	 */
 	Map<String,Config> CONFIG_MAP = new HashMap<String,Config>();
 	/**
